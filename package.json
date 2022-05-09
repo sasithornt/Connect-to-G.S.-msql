@@ -1,0 +1,26 @@
+{
+  "name": "connect-to-g.s.-msql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sasithornt/Connect-to-G.S.-msql.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sasithornt/Connect-to-G.S.-msql/issues"
+  },
+  "homepage": "https://github.com/sasithornt/Connect-to-G.S.-msql#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mssql": "^8.1.0",
+    "nodemon": "^2.0.16"
+  }
+}
