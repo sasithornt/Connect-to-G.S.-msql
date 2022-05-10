@@ -28,7 +28,7 @@ const config = {
 
 
 
-// ดึงข้อมูลมาแสดง selctAll data
+// ดึงข้อมูลมาแสดง selctAll data //
 app.get('/Types', function (req, res) {
     // connect to your database
     sql.connect(config, function (err) {
@@ -49,7 +49,7 @@ app.get('/Types', function (req, res) {
         });
     });
 });
-
+// End selctAll data //
 
 // เพิ่มข้อมูล insert data Users
 // app.post('/create', (req, res) => {
@@ -100,7 +100,7 @@ app.get('/Types', function (req, res) {
 //     });
 // })
 
-//Insert to Types
+// Start Insert to Table Types //
 app.post('/addTypes', (req, res) => {
     sql.connect(config, function (err) {
         const TypeName = req.body.TypeName;
@@ -121,7 +121,44 @@ app.post('/addTypes', (req, res) => {
 
     });
 })
+// End Insert to Table Types //
 
+// start insert to table location //
+
+app.post('/addlocation', (req, res) => {
+    sql.connect(config, function (err) {
+        // ประกาศตัวแปร //
+        const locationName = req.body.locationName;
+        const locationId = req.body.locationId;
+        const CompleteName = req.body.CompleteName;
+        const LocationLevel = req.body.LocationLevel;
+        const Ancestors_Cache = req.body.Ancestors_Cache;
+        const Sons_Cache = req.body.Sons_Cache;
+        const Address = req.body.Address;
+        const PostCode = req.body.PostCode;
+        const Town = req.body.Town;
+        const Location_State = req.body.Location_State;
+        const Country = req.body.Country;
+        const Lititude = req.body.Lititude;
+        const Longitude = req.body.Longitude;
+        const Altitude = req.body.Altitude;
+
+        // create Request object
+        var request = new sql.Request();
+
+        request.query(`Insert into Location (Name,Location_Id,Complete_Name,Location_Level,Ancestors_Cache,Sons_Cache,Address,PostCode,Town,Location_State,Country,Lititude,Longitude,Altitude) 
+        VALUES ('${locationName}','${locationId}','${CompleteName}','${LocationLevel}','${Ancestors_Cache}','${Sons_Cache}','${Address}','${PostCode}','${Town}','${Location_State}','${Lititude}','${Longitude}','${Altitude}')`,
+            function (err, res) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(res);
+                }
+            });
+    })
+})
+
+// End insert to table location //
 
 var server = app.listen(5001, function () {
     console.log('Server is running on port 5001');
