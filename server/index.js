@@ -101,7 +101,7 @@ app.get('/Types', function (req, res) {
 // })
 
 // Start Insert to Table Types //
-app.post('/addTypes', (req, res) => {
+app.post('/AddTypes', (req, res) => {
     sql.connect(config, function (err) {
         const TypeName = req.body.TypeName;
         const Type_Comment = req.body.Type_Comment;
@@ -123,9 +123,26 @@ app.post('/addTypes', (req, res) => {
 })
 // End Insert to Table Types //
 
+//Start query Types //
+app.get('/GetTypes',(req,res)=>{
+    sql.connect(config,function (err){
+        if(err )throw err;
+
+        var request = new sql.Request();
+        request.query(`SELECT * FROM Types` ,function (err,recordset){
+            if (err) throw err;
+            // console.log(recordset)
+            // send records as a response
+            res.send(recordset);
+        })
+    })
+})
+//End query Types //
+
+
 // start insert to table location //
 
-app.post('/addlocation', (req, res) => {
+app.post('/Addlocation', (req, res) => {
     sql.connect(config, function (err) {
         // ประกาศตัวแปร //
         const locationName = req.body.locationName;
@@ -159,6 +176,96 @@ app.post('/addlocation', (req, res) => {
 })
 
 // End insert to table location //
+
+
+//Start Insert Status //
+app.post('/AddStatus',(req,res)=>{
+    sql.connect(config, function(err){
+        const Name = req.body.Name;
+
+        //Create Request object //
+        var request = new sql.Request();
+
+        request.query(`Insert into Status_Mst (Name) VALUES ('${Name}')`,
+        function(err,res){
+            if(err){
+                console.log(err);
+            }else{
+                console.log(res);
+            }
+        })
+    })
+})
+
+//End Insert Status //
+
+//Start Insert Category //
+app.post('/AddCategory',(req,res)=>{
+    sql.connect(config, function(err){
+        const Name = req.body.Name;
+        const Comment  = req.body.Comment;
+
+        //Create Request object //
+        var request = new sql.Request();
+
+        request.query(`INSERT INTO Category (Name,Category_Comment) VALUES ('${Name}','${Comment}')`,
+        function(err,res){
+            if(err){
+                console.log(err);
+            }else{
+                console.log(res);
+            }
+        })
+    })
+})
+
+//End Insert Status //
+
+//Start query category //
+app.get('/GetCategory', function (req, res) {
+    // connect to your database
+    sql.connect(config, function (err) {
+        if (err) throw err;
+        console.log('Connected');
+        // create Request object
+        var request = new sql.Request();
+        // query to the database and get the records
+
+        //ดึงแบบตารางเดียว
+        request.query(`SELECT * FROM Category`, function (err, recordset) {
+          
+            if (err) throw err;
+            // console.log(recordset)
+            // send records as a response
+            res.send(recordset);
+        });
+    });
+});
+
+//End query category //
+
+
+//Start query Status //
+app.get('/GetStatus',function(req,res){
+    sql.connect(config,function(err){
+        if(err) throw err;
+        var request = new sql.Request();
+
+        request.query(`SELECT * FROM Status_Mst`,function(err,recordset){
+            if(err) throw err;
+            // console.log(recordset);
+            res.send(recordset);
+        })
+    })
+})
+// End query Status //
+
+
+app.get('/Get',(req,res)=>{
+    res.status(200).json({
+        message:'Hello Fern'
+    });
+});
 
 var server = app.listen(5001, function () {
     console.log('Server is running on port 5001');
