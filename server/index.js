@@ -29,7 +29,7 @@ const config = {
 
 
 // ดึงข้อมูลมาแสดง selctAll data //
-app.get('/Types', function (req, res) {
+app.get('/types', function (req, res) {
     // connect to your database
     sql.connect(config, function (err) {
         if (err) throw err;
@@ -101,7 +101,7 @@ app.get('/Types', function (req, res) {
 // })
 
 // Start Insert to Table Types //
-app.post('/AddTypes', (req, res) => {
+app.post('/addtypes', (req, res) => {
     sql.connect(config, function (err) {
         const TypeName = req.body.TypeName;
         const Type_Comment = req.body.Type_Comment;
@@ -124,7 +124,7 @@ app.post('/AddTypes', (req, res) => {
 // End Insert to Table Types //
 
 //Start query Types //
-app.get('/GetTypes',(req,res)=>{
+app.get('/gettypes',(req,res)=>{
     sql.connect(config,function (err){
         if(err )throw err;
 
@@ -142,7 +142,7 @@ app.get('/GetTypes',(req,res)=>{
 
 // start insert to table location //
 
-app.post('/Addlocation', (req, res) => {
+app.post('/addlocation', (req, res) => {
     sql.connect(config, function (err) {
         // ประกาศตัวแปร //
         const locationName = req.body.locationName;
@@ -179,7 +179,7 @@ app.post('/Addlocation', (req, res) => {
 
 
 //Start Insert Status //
-app.post('/AddStatus',(req,res)=>{
+app.post('/addstatus',(req,res)=>{
     sql.connect(config, function(err){
         const Name = req.body.Name;
 
@@ -200,7 +200,7 @@ app.post('/AddStatus',(req,res)=>{
 //End Insert Status //
 
 //Start Insert Category //
-app.post('/AddCategory',(req,res)=>{
+app.post('/addcategory',(req,res)=>{
     sql.connect(config, function(err){
         const Name = req.body.Name;
         const Comment  = req.body.Comment;
@@ -221,8 +221,23 @@ app.post('/AddCategory',(req,res)=>{
 
 //End Insert Status //
 
+//Start query Status //
+app.get('/getstatus',function(req,res){
+    sql.connect(config,function(err){
+        if(err) throw err;
+        var request = new sql.Request();
+
+        request.query(`SELECT * FROM Status_Mst`,function(err,recordset){
+            if(err) throw err;
+            // console.log(recordset);
+            res.send(recordset);
+        })
+    })
+})
+// End query Status //
+
 //Start query category //
-app.get('/GetCategory', function (req, res) {
+app.get('/getcategory', function (req, res) {
     // connect to your database
     sql.connect(config, function (err) {
         if (err) throw err;
@@ -245,23 +260,10 @@ app.get('/GetCategory', function (req, res) {
 //End query category //
 
 
-//Start query Status //
-app.get('/GetStatus',function(req,res){
-    sql.connect(config,function(err){
-        if(err) throw err;
-        var request = new sql.Request();
-
-        request.query(`SELECT * FROM Status_Mst`,function(err,recordset){
-            if(err) throw err;
-            // console.log(recordset);
-            res.send(recordset);
-        })
-    })
-})
-// End query Status //
 
 
-app.get('/Get',(req,res)=>{
+
+app.get('/get',(req,res)=>{
     res.status(200).json({
         message:'Hello Fern'
     });
