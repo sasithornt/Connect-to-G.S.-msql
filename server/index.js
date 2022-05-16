@@ -5,6 +5,9 @@ const { request } = require('express');
 const sql = require('mssql');
 var bodyparser = require("body-parser");
 
+const multer = require('multer');
+
+
 // Body Parser Middleware
 app.use(bodyparser.json());
 app.use(express.json());
@@ -259,9 +262,27 @@ app.get('/getcategory', function (req, res) {
 
 //End query category //
 
+// Start insert images //
+const storage = multer.diskStorage({
+    // ตำแหน่งโฟลเดอร์ที่เก็บ
+    destination: function(req,file,cb){
+        cb(null,'image/')
+    },
+    filename: function(reg,file,cb){
+        cb(null,  file.originalname)
+    }
+})
 
+const upload = multer({storage: storage})
+app.get('/',(req,res)=>{
+    res.send('Image Upload')
+})
 
+app.post('/upload',upload.single('file'),(req,res)=>{
+    res.send(req.file)
+})
 
+// End insert images //
 
 app.get('/get',(req,res)=>{
     res.status(200).json({
