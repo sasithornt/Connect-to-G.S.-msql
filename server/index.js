@@ -1,3 +1,6 @@
+// API connect to database GS //
+
+// ประกาศตัวแปร //
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -28,6 +31,7 @@ const config = {
         }
     }
 }
+
 
 
 
@@ -262,14 +266,23 @@ app.get('/getcategory', function (req, res) {
 
 //End query category //
 
-// Start insert images //
+// Start test images upload  //
 const storage = multer.diskStorage({
     // ตำแหน่งโฟลเดอร์ที่เก็บ
     destination: function(req,file,cb){
         cb(null,'image/')
     },
-    filename: function(reg,file,cb){
-        cb(null,  file.originalname)
+    // การตั้งชื่อ
+    filename: function (reg, file, cb) {
+        cb(null, file.originalname)
+    },
+    // การกำหนดขนาด
+    limits: {
+        fileSize: 2000
+    },
+    onFileSizeLimit: function (file) {
+        console.log('Failed: ' + file.originalname + ' is limited')
+        fs.unlink(file.path)
     }
 })
 
@@ -282,7 +295,7 @@ app.post('/upload',upload.single('file'),(req,res)=>{
     res.send(req.file)
 })
 
-// End insert images //
+// End test images upload  //
 
 app.get('/get',(req,res)=>{
     res.status(200).json({
@@ -293,3 +306,4 @@ app.get('/get',(req,res)=>{
 var server = app.listen(5001, function () {
     console.log('Server is running on port 5001');
 });
+
